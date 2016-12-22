@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<title>jQuery Autocomplete Plugin</title>
+<script type="text/javascript" src="../lib/jquery.js"></script>
+<script type='text/javascript' src='../lib/jquery.bgiframe.min.js'></script>
+<script type='text/javascript' src='../lib/jquery.ajaxQueue.js'></script>
+<script type='text/javascript' src='../lib/thickbox-compressed.js'></script>
+<script type='text/javascript' src='../jquery.autocomplete.js'></script>
+<!--<script type='text/javascript' src='localdata.js'></script>-->
+<link rel="stylesheet" type="text/css" href="main.css" />
+<link rel="stylesheet" type="text/css" href="../jquery.autocomplete.css" />
+<link rel="stylesheet" type="text/css" href="../lib/thickbox.css" />
+	
+<script type="text/javascript">
+var cities = [];
+$().ready(function() {
+
+	function log(event, data, formatted) {
+		$("<li>").html( !data ? "No match!" : "Selected: " + formatted).appendTo("#result");
+	}
+	
+	function formatItem(row) {
+		return row[0] + " (<strong>id: " + row[1] + "</strong>)";
+	}
+	function formatResult(row) {
+		return row[0].replace(/(<.+?>)/gi, '');
+	}
+	
+	$("#suggest1").focus().autocomplete(cities);
+	
+});
+
+function changeOptions(){
+	var max = parseInt(window.prompt('Please type number of items to display:', jQuery.Autocompleter.defaults.max));
+	if (max > 0) {
+		$("#suggest1").setOptions({
+			max: max
+		});
+	}
+}
+
+function changeScrollHeight() {
+    var h = parseInt(window.prompt('Please type new scroll height (number in pixels):', jQuery.Autocompleter.defaults.scrollHeight));
+    if(h > 0) {
+        $("#suggest1").setOptions({
+			scrollHeight: h
+		});
+    }
+}
+
+function changeToMonths(){
+	$("#suggest1")
+		// clear existing data
+		.val("")
+		// change the local data to months
+		.setOptions({data: months})
+		// get the label tag
+		.prev()
+		// update the label tag
+		.text("Month (local):");
+}
+</script>
+	
+</head>
+
+<body>
+
+<h1 id="banner"><a href="http://bassistance.de/jquery-plugins/jquery-plugin-autocomplete/">jQuery Autocomplete Plugin</a> Demo</h1>
+
+<div id="content">
+	
+	<form autocomplete="off">
+		<p>
+			<label>Single City (local):</label>
+			<input type="text" id="suggest1" />
+		</p>
+		</form>
+</div>
